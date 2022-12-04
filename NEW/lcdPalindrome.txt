@@ -1,0 +1,65 @@
+4. Take only 3 readings of ultrasonic sensor (after trigger) at the intervals of 2 seconds then stop taking further readings. Average the readings and find out if that number is palindrome number or not. And display the output in LCD.
+
+
+
+
+#include <LiquidCrystal.h>
+
+#define echoPin 8 
+#define trigPin 7 
+long dur; 
+int dis;
+const int rs = 13, en = 12, d4 = 11, d5 = 10, d6 = 9, d7 = 8;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+void setup() {
+  pinMode(trigPin, OUTPUT); 
+  pinMode(echoPin, INPUT); 
+  Serial.begin(9600); 
+  Serial.println("Ultrasonic Sensor HC-SR04 Test");
+  Serial.println("with Arduino UNO R3");
+  lcd.begin(16, 2);
+  
+  lcd.print("Ami Padsala");
+  delay(1000);
+  ultra();
+  
+}
+void ultra(){
+  int i=0,sum=0,avg=0,temp,rem,tot=0;
+   for(i=0;i<3;i++){
+  digitalWrite(trigPin, LOW);
+  delay(2000);
+  digitalWrite(trigPin, HIGH);
+  delay(2000);
+  digitalWrite(trigPin, LOW);
+ 
+  dur = pulseIn(echoPin, HIGH);
+  
+  dis = dur * 0.034 / 2; 
+  Serial.print("dis: ");
+  Serial.print(dis);
+  Serial.println(" cm");
+  tot=tot+dis;
+}
+  avg=tot/3;
+  Serial.println(avg);
+  int n=avg;
+  temp=avg;
+  while(n>0)    
+  {    
+    rem=n%10;    
+    sum=(sum*10)+rem;    
+    n=n/10;    
+  }    
+  if(temp==sum)    
+  {
+    Serial.println("palindrome number ");   
+    lcd.print("palindrome number"); 
+  }
+  else
+  {    
+    Serial.println("not palindrome"); 
+    lcd.print("not palindrome number");   
+  }
+}
