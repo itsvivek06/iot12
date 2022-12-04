@@ -1,0 +1,17 @@
+const int pullupPin = 7;
+const int buzzPin = 8;
+
+void setup() {
+ Serial.begin(9600);
+ pinMode(pullupPin,INPUT_PULLUP);
+ pinMode(buzzPin,OUTPUT);
+}
+void loop() {
+ Serial.println(digitalRead(pullupPin));
+ if(digitalRead(pullupPin) == 0)
+ {
+ digitalWrite(buzzPin,HIGH);
+ }else{
+ digitalWrite(buzzPin,LOW);
+ }
+} 
