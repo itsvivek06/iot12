@@ -1,0 +1,217 @@
+// A1Q1. To interface LED with Arduino and write a program to turn ON/OFF LED light at interval of every 1 Sec.
+
+#define LED 13
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED, HIGH);
+  delay(1000);
+  digitalWrite(LED, LOW);
+  delay(1000);
+}
+
+// A1Q2. To interface LED with ESP32(Node MCU-8266) and write a program to turn ON/OFF LED light at interval of every 1 Sec.
+
+#define LED1 13
+
+void setup() {
+  pinMode(LED1, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED1, HIGH);
+  delay(1000);
+  digitalWrite(LED1, LOW);
+  delay(1000);
+}
+
+// A1Q3. To interface 2 LED with different colour and write a program to turn ON/OFF LED light at a same time. 
+
+#define LED1 13
+#define LED2 12
+
+void setup() {
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED1, HIGH);
+  digitalWrite(LED2, HIGH);
+  delay(1000);
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  delay(1000);
+}
+
+// A1Q4. To interface BUZZER and write a program to turn ON/OFF Buzzer.
+
+#define BUZZ 13
+
+void setup() {
+  pinMode(BUZZ, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(BUZZ, HIGH);
+  delay(1000);
+  digitalWrite(BUZZ, LOW);
+  delay(1000);
+}
+
+
+// A1Q5. To interface 2 LED with different colour and write a program to turn ON/OFF LED light on after another, which works light police Van Light. And also play the buzzer of police van or ambulance.
+
+#define LED1 8
+#define BUZZ 12
+#define LED2 13
+
+void setup() {
+  pinMode(LED1, OUTPUT);
+  pinMode(BUZZ, OUTPUT);
+  pinMode(LED2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED1, HIGH);
+  digitalWrite(BUZZ, LOW);
+  digitalWrite(LED2, LOW);
+  delay(140);
+  digitalWrite(LED1, LOW);
+  digitalWrite(BUZZ, HIGH);
+  digitalWrite(LED2, HIGH);
+  delay(140);
+}
+
+// A1Q6. Write a program to play a melody using buzzer.
+
+#define BUZZ 12
+void setup() {
+  pinMode(BUZZ, OUTPUT);
+}
+
+void loop() {
+    digitalWrite(BUZZ, LOW);
+    delay(50);
+    digitalWrite(BUZZ, HIGH);
+    delay(100);
+    digitalWrite(BUZZ, LOW);
+    delay(260);
+    digitalWrite(BUZZ, HIGH);
+    delay(200);
+    digitalWrite(BUZZ, LOW);
+    delay(50);
+    digitalWrite(BUZZ, HIGH);
+    delay(400);
+    digitalWrite(BUZZ, LOW);
+    delay(340);
+    digitalWrite(BUZZ, HIGH);
+    delay(500);
+    digitalWrite(BUZZ, LOW);
+    delay(50);
+    digitalWrite(BUZZ, HIGH);
+    delay(400);
+}
+
+// A1Q7. To interface PULLUP BUTTON with Arduino. write a program to turn ON/OFF LED as per the button pullup.
+
+#define PULLUPBTN 13
+#define LED 12
+
+void setup() {
+  pinMode(PULLUPBTN, INPUT_PULLUP);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(PULLUPBTN) == LOW) {
+    digitalWrite(LED, HIGH);
+  } else {
+    digitalWrite(LED, LOW);
+  }
+}
+
+
+// A1Q8. To interface DHT11 Sensor with Arduino and write a program to print temperature and humidity reading.
+
+#include "DHT.h"
+#define DHTPIN 13
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(DHTPIN, INPUT);
+  dht.begin();
+}
+
+void loop() {
+
+  float h = dht.readHumidity();
+  float f = dht.readTemperature(true);
+  float c = dht.readTemperature();
+
+  if (isnan(h) || isnan(f) || isnan(c)) {
+    Serial.println("Not a value");
+  } else {
+    Serial.println("H : ");
+    Serial.println(h);
+    Serial.println("F : ");
+    Serial.println(f);
+    Serial.println("C : ");
+    Serial.println(c);
+  }
+
+  delay(2000);
+}
+
+
+// A1Q9. Use DHT 11 and glow the red light if temperature goes above 30’c and play the buzzer and blink the green LED if temperature goes below 30’c and stop the buzzer.
+
+#include "DHT.h"
+#define DHTPIN 13
+#define DHTTYPE DHT11
+#define LED 12
+#define BUZZ 11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(DHTPIN, INPUT);
+  dht.begin();
+  pinMode(LED, OUTPUT);
+  pinMode(BUZZ, OUTPUT);
+}
+
+void loop() {
+  
+  float h = dht.readHumidity();
+  float f = dht.readTemperature(true);
+  float c = dht.readTemperature();
+
+  if (isnan(h) || isnan(f) || isnan(c)) {
+    Serial.println("Not a value");
+  } else {
+    Serial.println("H : ");
+    Serial.println(h);
+    Serial.println("F : ");
+    Serial.println(f);
+    Serial.println("C : ");
+    Serial.println(c);
+  }
+
+  delay(2000);
+
+  if (c > 30) {
+    digitalWrite(BUZZ, HIGH);
+    digitalWrite(LED, LOW);
+  } else {
+    digitalWrite(BUZZ, LOW);
+    digitalWrite(LED, HIGH);
+  }
+}
